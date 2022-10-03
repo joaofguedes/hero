@@ -8,8 +8,10 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Game {
-
+    private int x = 10;
+    private int y = 10;
     private Screen screen;
+    
     public Game() {
         try {
             TerminalSize terminalSize = new TerminalSize(40, 20);
@@ -20,7 +22,7 @@ public class Game {
             screen.startScreen();
             screen.doResizeIfNecessary();
             screen.clear();
-            screen.setCharacter(10, 10, TextCharacter.fromCharacter('X')[0]);
+            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
             screen.refresh();
         } catch (IOException e) {
             e.printStackTrace();
@@ -28,7 +30,6 @@ public class Game {
     }
 
     private void draw() throws IOException {
-
             screen.clear();
             screen.setCharacter(10, 10, TextCharacter.fromCharacter('X')[0]);
             screen.refresh();

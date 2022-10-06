@@ -10,9 +10,10 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Game {
-    private int x = 10;
-    private int y = 10;
+
     private Screen screen;
+
+    private Hero hero;
     
     public Game() {
         try {
@@ -23,9 +24,7 @@ public class Game {
             screen.setCursorPosition(null);
             screen.startScreen();
             screen.doResizeIfNecessary();
-            screen.clear();
-            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
-            screen.refresh();
+            hero = new Hero(10, 10);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,8 +32,9 @@ public class Game {
 
     private void draw() throws IOException {
             screen.clear();
-            screen.setCharacter(10, 10, TextCharacter.fromCharacter('X')[0]);
+            hero.draw(screen);
             screen.refresh();
+
         }
 
     public void run() throws IOException{
@@ -52,13 +52,13 @@ public class Game {
 
     private void processKey(KeyStroke key){
         if (key.getKeyType() == KeyType.ArrowUp)
-            y += 1;
+            hero.moveUp();
         if (key.getKeyType() == KeyType.ArrowDown)
-            y -= 1;
+            hero.moveDown();
         if (key.getKeyType() == KeyType.ArrowRight)
-            x += 1;
+            hero.moveRight();
         if (key.getKeyType() == KeyType.ArrowLeft)
-            x -= 1;
+            hero.moveLeft();
 
         System.out.println(key);
     }

@@ -24,7 +24,7 @@ public class Game {
             screen.setCursorPosition(null);
             screen.startScreen();
             screen.doResizeIfNecessary();
-            hero = new Hero(10, 10);
+            hero = new Hero(new Position(10, 10));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,15 +52,19 @@ public class Game {
 
     private void processKey(KeyStroke key){
         if (key.getKeyType() == KeyType.ArrowUp)
-            hero.moveUp();
+            moveHero(hero.moveUp());
         if (key.getKeyType() == KeyType.ArrowDown)
-            hero.moveDown();
+            moveHero(hero.moveDown());
         if (key.getKeyType() == KeyType.ArrowRight)
-            hero.moveRight();
+            moveHero(hero.moveRight());
         if (key.getKeyType() == KeyType.ArrowLeft)
-            hero.moveLeft();
+            moveHero(hero.moveLeft());
 
         System.out.println(key);
+    }
+
+    private void moveHero(Position position){
+        hero.setPosition(position);
     }
 }
 

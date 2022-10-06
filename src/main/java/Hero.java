@@ -1,52 +1,41 @@
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
+import org.jetbrains.annotations.NotNull;
+
 
 public class Hero {
-    private int x;
-    private int y;
+    private Position position;
 
-    public Hero (int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Hero(Position position){
+        this.position = position;
     }
 
-    public int getY() {
-        return y;
+    public Position getPosition(){
+        return position;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
-    public int getX() {
-        return x;
+    public Position moveUp(){
+        return new Position(position.getX(), position.getY() - 1);
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public Position moveDown(){
+        return new Position(position.getX(), position.getY() + 1);
     }
 
-    public int moveUp(){
-        y += 1;
-        return y;
+    public Position moveRight(){
+        return new Position(position.getX() + 1, position.getY());
     }
 
-    public int moveDown(){
-        y -= 1;
-        return y;
+    public Position moveLeft(){
+        return new Position(position.getX() - 1, position.getY());
     }
 
-    public int moveRight(){
-        x += 1;
-        return x;
+    public void draw(@NotNull Screen screen){
+        screen.setCharacter(position.getX(), position.getY(), TextCharacter.fromCharacter('X')[0]);
     }
 
-    public int moveLeft(){
-        x -= 1;
-        return x;
-    }
-
-    public void draw(Screen screen){
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
-    }
 }

@@ -1,6 +1,7 @@
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -37,12 +38,28 @@ public class Game {
         }
 
     public void run() throws IOException{
+        while (true) {
             draw();
             KeyStroke key = screen.readInput();
+            if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q')
+                screen.close();
+            if (key.getKeyType() == KeyType.EOF) {
+                break;
+            }
             processKey(key);
+        }
     }
 
     private void processKey(KeyStroke key){
+        if (key.getKeyType() == KeyType.ArrowUp)
+            y += 1;
+        if (key.getKeyType() == KeyType.ArrowDown)
+            y -= 1;
+        if (key.getKeyType() == KeyType.ArrowRight)
+            x += 1;
+        if (key.getKeyType() == KeyType.ArrowLeft)
+            x -= 1;
+
         System.out.println(key);
     }
 }

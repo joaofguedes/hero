@@ -10,31 +10,28 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Game {
-
-    private static Screen screen;
-
-    private Hero hero;
+    private static TerminalScreen screen;
     private Arena arena;
-    
+
     public Game() throws IOException {
-        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(40,40)).createTerminal();
+        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(40, 40)).createTerminal();
         screen = new TerminalScreen(terminal);
         screen.setCursorPosition(null);
         screen.startScreen();
         screen.doResizeIfNecessary();
-        TerminalSize terminalsize = new TerminalSize(40, 40);
-        hero = new Hero(new Position(10, 10));
+        TerminalSize terminalsize = new TerminalSize(40, 20);
+        this.arena = new Arena(40, 20);
     }
 
 
     private void draw() throws IOException {
-            screen.clear();
-            hero.draw(screen);
-            screen.refresh();
+        screen.clear();
+        arena.draw(screen.newTextGraphics());
+        screen.refresh();
 
-        }
+    }
 
-    public void run() throws IOException{
+    public void run() throws IOException {
         while (true) {
             draw();
             KeyStroke key = screen.readInput();
@@ -43,25 +40,8 @@ public class Game {
             if (key.getKeyType() == KeyType.EOF) {
                 break;
             }
-            processKey(key);
+            arena.processKey(key);
         }
-    }
-
-    private void processKey(KeyStroke key){
-        if (key.getKeyType() == KeyType.ArrowUp)
-            moveHero(hero.moveUp());
-        if (key.getKeyType() == KeyType.ArrowDown)
-            moveHero(hero.moveDown());
-        if (key.getKeyType() == KeyType.ArrowRight)
-            moveHero(hero.moveRight());
-        if (key.getKeyType() == KeyType.ArrowLeft)
-            moveHero(hero.moveLeft());
-
-        System.out.println(key);
-    }
-
-    private void moveHero(Position position){
-        hero.setPosition(position);
     }
 }
 

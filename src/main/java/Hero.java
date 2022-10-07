@@ -7,13 +7,12 @@ import com.googlecode.lanterna.screen.Screen;
 
 
 
-public class Hero {
+public class Hero extends Element {
     private Position position;
 
     public Hero(Position position) {
         this.position = position;
     }
-
     public Position getPosition() {
         return position;
     }
@@ -47,4 +46,3 @@ public class Hero {
 
 
 }
-

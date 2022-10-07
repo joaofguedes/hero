@@ -11,24 +11,21 @@ import java.io.IOException;
 
 public class Game {
 
-    private Screen screen;
+    private static Screen screen;
 
     private Hero hero;
+    private Arena arena;
     
-    public Game() {
-        try {
-            TerminalSize terminalSize = new TerminalSize(40, 20);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
-            Terminal terminal = terminalFactory.createTerminal();
-            screen = new TerminalScreen(terminal);
-            screen.setCursorPosition(null);
-            screen.startScreen();
-            screen.doResizeIfNecessary();
-            hero = new Hero(new Position(10, 10));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Game() throws IOException {
+        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(40,40)).createTerminal();
+        screen = new TerminalScreen(terminal);
+        screen.setCursorPosition(null);
+        screen.startScreen();
+        screen.doResizeIfNecessary();
+        TerminalSize terminalsize = new TerminalSize(40, 40);
+        hero = new Hero(new Position(10, 10));
     }
+
 
     private void draw() throws IOException {
             screen.clear();

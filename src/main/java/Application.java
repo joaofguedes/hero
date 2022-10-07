@@ -9,11 +9,10 @@ import java.io.IOException;
 
 public class Application {
     public static void main(String[] args) {
-        Game game = new Game();
-        try{
-            game.run();
+        try {
+            new Game().run();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

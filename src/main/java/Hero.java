@@ -1,6 +1,6 @@
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
-import org.jetbrains.annotations.NotNull;
+
 
 
 public class Hero {
@@ -34,7 +34,7 @@ public class Hero {
         return new Position(position.getX() - 1, position.getY());
     }
 
-    public void draw(@NotNull Screen screen){
+    public void draw(Screen screen){
         screen.setCharacter(position.getX(), position.getY(), TextCharacter.fromCharacter('X')[0]);
     }
 

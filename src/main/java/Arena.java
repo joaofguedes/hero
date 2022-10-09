@@ -1,28 +1,28 @@
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
+
     private int width;
     private int height;
     private Arena arena;
     private Hero hero;
     private List<Wall> walls;
-
+    private List<Coins> coins;
 
     public Arena(int width, int height) {
         this.width = width;
         this.height = height;
         this.walls = createWalls();
+        this.coins = createCoins();
         hero = new Hero(new Position(10, 10));
     }
 
@@ -41,23 +41,25 @@ public class Arena {
     }
 
 
-    public void draw(TextGraphics graphics){
+    public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
         hero.draw(graphics);
         for (Wall wall : walls)
             wall.draw(graphics);
+        for (Coins coin : coins)
+            coin.draw(graphics);
     }
 
 
-    private boolean canHeroMove(Position position){
-        if (position.getY() > height || position.getY() < 0){
+    private boolean canHeroMove(Position position) {
+        if (position.getY() > height || position.getY() < 0) {
             return false;
         }
-        if (position.getX() > width || position.getX() < 0){
+        if (position.getX() > width || position.getX() < 0) {
             return false;
         }
-        for (Wall wall: walls) {
+        for (Wall wall : walls) {
             if (wall.getPosition().equals(position)) {
                 return false;
             }
@@ -85,7 +87,24 @@ public class Arena {
     public void moveHero(Position position) {
         if (canHeroMove(position))
             hero.setPosition(position);
+        retrieveCoins(position);
     }
 
+    private List<Coins> createCoins() {
+        Random random = new Random();
+        ArrayList<Coins> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            coins.add(new Coins(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+        return coins;
+    }
+
+    private void retrieveCoins(Position position) {
+        for (Coins coin : coins)
+            if (hero.getPosition().equals(coin.getPosition())) {
+                coins.remove(coin);
+                break;
+            }
+
+    }
 }
 

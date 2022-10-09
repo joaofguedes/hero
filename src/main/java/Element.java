@@ -20,4 +20,7 @@ abstract class Element {
     }
 
     abstract void draw(TextGraphics graphics);
+
+
 }
+

@@ -41,6 +41,18 @@ public class Game {
                 break;
             }
             arena.processKey(key);
+
+            if(arena.verifyMonsterCollisions()){
+                screen.close();
+                break;
+            }
+
+            arena.moveMonsters();
+            if(arena.verifyMonsterCollisions()){
+                screen.close();
+                break;
+            }
+
         }
     }
 }

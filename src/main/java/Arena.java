@@ -5,6 +5,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,12 +18,14 @@ public class Arena {
     private Hero hero;
     private List<Wall> walls;
     private List<Coins> coins;
+    private List<Monster> monsters;
 
     public Arena(int width, int height) {
         this.width = width;
         this.height = height;
         this.walls = createWalls();
         this.coins = createCoins();
+        this.monsters = createMonsters();
         hero = new Hero(new Position(10, 10));
     }
 
@@ -49,6 +52,8 @@ public class Arena {
             wall.draw(graphics);
         for (Coins coin : coins)
             coin.draw(graphics);
+        for(Monster monster : monsters)
+            monster.draw(graphics);
     }
 
 
@@ -94,8 +99,19 @@ public class Arena {
         Random random = new Random();
         ArrayList<Coins> coins = new ArrayList<>();
         for (int i = 0; i < 5; i++)
-            coins.add(new Coins(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+            coins.add(new Coins(random.nextInt(width - 2) + 1,
+                    random.nextInt(height - 2) + 1));
         return coins;
+    }
+
+    private List<Monster> createMonsters() {
+        Random random = new Random();
+        ArrayList<Monster> monsters = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            monsters.add(new Monster(random.nextInt(width - 2) + 1,
+                    random.nextInt(height - 2) + 1));
+        }
+        return monsters;
     }
 
     private void retrieveCoins(Position position) {
@@ -106,5 +122,29 @@ public class Arena {
             }
 
     }
+    public void moveMonsters(){
+        for(Monster monster : monsters){
+            monster.setPosition(monster.move(this));
+        }
+    }
+
+    public boolean verifyMonsterCollisions(){
+        for(Monster monster : monsters){
+            if(monster.getPosition().equals(hero.getPosition())){
+                System.out.println("Death.");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
 }
 
